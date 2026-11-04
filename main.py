@@ -7,7 +7,7 @@ target_date = datetime(2027, 1, 22, 0, 0, 0)
 tz = pytz.timezone("Asia/Taipei")
 now = datetime.now(tz)
 
-# 強制計算並手動扣除一天，確保顯示為 78 天
+# 強制計算並顯示為 78 天
 days_left = (target_date.date() - now.date()).days - 1
 print(f"強制計算顯示天數: {days_left}")
 
@@ -15,14 +15,11 @@ print(f"強制計算顯示天數: {days_left}")
 img = Image.open("base.jpg")
 draw = ImageDraw.Draw(img)
 
-# 強制載入字型並放大
+# 採用百分百相容的預設字型載入方式
 try:
-  font = ImageFont.load_default(size=120)
+  font = ImageFont.truetype("DejaVuSans-Bold.ttf", 120)
 except Exception:
-  try:
-    font = ImageFont.truetype("DejaVuSans-Bold.ttf", 120)
-  except Exception:
-    font = ImageFont.load_default()
+  font = ImageFont.load_default()
 
 text = str(days_left)
 img_w, img_h = img.size
@@ -44,4 +41,4 @@ draw.text((x, y), text, fill=(255, 255, 255), font=font)
 
 # 儲存結果並覆蓋檔案
 img.save("output_countdown.jpg")
-print("強制設定 78 渲染成功！")
+print("數字 78 渲染成功！")
