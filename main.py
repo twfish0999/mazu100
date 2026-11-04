@@ -7,38 +7,32 @@ target_date = datetime(2027, 1, 22, 0, 0, 0)
 tz = pytz.timezone("Asia/Taipei")
 now = datetime.now(tz)
 
-# 計算剩餘天數
-delta = target_date - now.date() - datetime.now(tz).date() + datetime.now(tz).date()  # 確保只算日期差
-# 簡單精確計算天數差
+# 計算剩餘天數（精確計算至 79 天或當前天數差）
 days_left = (target_date.date() - now.date()).days
 
-# 開啟底圖
+# 開啟乾淨底圖
 img = Image.open("base.jpg")
 draw = ImageDraw.Draw(img)
 
-# 設定字型與大小（請確保環境有支援的字型，或使用預設字型）
+# 設定字型與大小
 try:
-  font = ImageFont.truetype(
-      "GenWanGothic-M.ttf", 120
-  )  # 依您專案中的字型調整
+  font = ImageFont.truetype("GenWanGothic-M.ttf", 120)
 except:
   font = ImageFont.load_default()
 
 text = str(days_left)
 
-# 取得圖片尺寸以計算置中座標
+# 取得圖片尺寸以計算精確置中座標
 img_w, img_h = img.size
 
-# 計算文字寬高來達到置中效果（您可以手動微調 offsets）
-# 這裡假設紅框大約在圖片中央偏下方，我們用 textbbox 來精準計算置中
+# 計算字體寬高
 bbox = draw.textbbox((0, 0), text, font=font)
 text_w = bbox[2] - bbox[0]
 text_h = bbox[3] - bbox[1]
 
-# 調整這裡的 X 軸與 Y 軸座標讓數字完美落在紅框中央
-# 假設紅框中心點大約在水平正中央，您可以透過調整減去的數值來微調左右
-x = (img_w - text_w) / 2 - 10  # 稍微往左或往右微調
-y = 1120  # 依您的紅框高度垂直位置調整
+# 計算水平置中 X 座標，以及對應紅色方框的垂直 Y 座標
+x = (img_w - text_w) / 2
+y = 1100  # 若數字位置需要上下微調，可直接修改此數值
 
 # 繪製白色數字
 draw.text((x, y), text, fill=(255, 255, 255), font=font)
