@@ -32,9 +32,7 @@ try:
 except Exception:
   text_w, text_h = 70, 90
 
-# 🎯 調整座標：
-# x 軸再向左多移一些（減去更多像素），讓數字對齊紅框中的「天」字左側
-# y 軸調大到大約 630（讓數字往下移動，精準落入紅框內部）
+# 🎯 座標設定：x 軸向左微調，y 軸設定在 630 完美落入下方紅框內
 x = (img_w - text_w) / 2 - 90
 y = 630
 
@@ -43,4 +41,4 @@ draw.text((x, y), text, fill=(255, 255, 255), font=font)
 
 # 儲存結果並覆蓋檔案
 img.save("output_countdown.jpg")
-print("數字 78 座標與高度調整成功！")
+print("數字 78 渲染成功！")
