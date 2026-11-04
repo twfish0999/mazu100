@@ -1,0 +1,24 @@
+name: Daily Countdown Automation
+
+on:
+  schedule:
+    - cron: '0 16 * * *'  # 台灣時間每天 00:00 自動執行
+  workflow_dispatch:      # 支援手動觸發測試
+
+jobs:
+  run-countdown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 取得程式碼
+        uses: actions/checkout@v3
+
+      - name: 設定 Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 安裝 Pillow 圖像庫
+        run: pip install Pillow
+
+      - name: 執行倒數運算
+        run: python main.py
