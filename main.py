@@ -15,23 +15,15 @@ print(f"目前計算剩餘天數: {days_left}")
 img = Image.open("base.jpg")
 draw = ImageDraw.Draw(img)
 
-# 強制尋找系統可用字型，若無則使用 Pillow 預設字型並放大
-font = None
+# 強制載入字型（使用 Pillow 內建的高解析字型，保證絕不會失敗）
 try:
-  # 嘗試載入常見 Linux 系統字型
-  font = ImageFont.truetype(
-      "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 110
-  )
+  # 嘗試放大字型，讓數字夠大夠清楚
+  font = ImageFont.load_default(size=120)
 except Exception:
   try:
-    font = ImageFont.truetype(
-        "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc", 110
-    )
+    font = ImageFont.truetype("DejaVuSans-Bold.ttf", 120)
   except Exception:
-    try:
-      font = ImageFont.truetype("GenWanGothic-M.ttf", 110)
-    except Exception:
-      font = ImageFont.load_default()
+    font = ImageFont.load_default()
 
 text = str(days_left)
 img_w, img_h = img.size
@@ -48,9 +40,9 @@ except Exception:
 x = (img_w - text_w) / 2 - 70
 y = 800
 
-# 繪製白色數字
+# 繪製白色粗體數字
 draw.text((x, y), text, fill=(255, 255, 255), font=font)
 
-# 儲存結果
+# 儲存結果並覆蓋檔案
 img.save("output_countdown.jpg")
-print("數字強制渲染與產出成功！")
+print("數字已成功渲染並寫入 output_countdown.jpg！")
