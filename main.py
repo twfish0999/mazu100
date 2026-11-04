@@ -7,7 +7,7 @@ target_date = datetime(2027, 1, 22, 0, 0, 0)
 tz = pytz.timezone("Asia/Taipei")
 now = datetime.now(tz)
 
-# 計算剩餘天數（精確計算至 79 天或當前天數差）
+# 計算剩餘天數
 days_left = (target_date.date() - now.date()).days
 
 # 開啟乾淨底圖
@@ -16,23 +16,27 @@ draw = ImageDraw.Draw(img)
 
 # 設定字型與大小
 try:
-  font = ImageFont.truetype("GenWanGothic-M.ttf", 120)
+  font = ImageFont.truetype("GenWanGothic-M.ttf", 110)
 except:
   font = ImageFont.load_default()
 
 text = str(days_left)
 
-# 取得圖片尺寸以計算精確置中座標
+# 取得圖片尺寸
 img_w, img_h = img.size
 
 # 計算字體寬高
-bbox = draw.textbbox((0, 0), text, font=font)
-text_w = bbox[2] - bbox[0]
-text_h = bbox[3] - bbox[1]
+try:
+  bbox = draw.textbbox((0, 0), text, font=font)
+  text_w = bbox[2] - bbox[0]
+  text_h = bbox[3] - bbox[1]
+except AttributeError:
+  text_w, text_h = draw.textsize(text, font=font)
 
-# 計算水平置中 X 座標，以及對應紅色方框的垂直 Y 座標
-x = (img_w - text_w) / 2
-y = 1100  # 若數字位置需要上下微調，可直接修改此數值
+# 針對紅框位置精準計算：
+# 將 X 軸往左微調大約 70 像素（讓「79」可以跟右邊的「天」字完美並排在紅框中央）
+x = (img_w - text_w) / 2 - 70
+y = 820  # 調整到紅框內的垂直高度
 
 # 繪製白色數字
 draw.text((x, y), text, fill=(255, 255, 255), font=font)
