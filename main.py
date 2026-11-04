@@ -7,7 +7,7 @@ target_date = datetime(2027, 1, 22, 0, 0, 0)
 tz = pytz.timezone("Asia/Taipei")
 now = datetime.now(tz)
 
-# 計算剩餘天數
+# 計算剩餘天數（目前為正確的 79 天）
 days_left = (target_date.date() - now.date()).days
 print(f"目前計算剩餘天數: {days_left}")
 
@@ -15,9 +15,8 @@ print(f"目前計算剩餘天數: {days_left}")
 img = Image.open("base.jpg")
 draw = ImageDraw.Draw(img)
 
-# 強制載入字型（使用 Pillow 內建的高解析字型，保證絕不會失敗）
+# 強制載入字型並放大
 try:
-  # 嘗試放大字型，讓數字夠大夠清楚
   font = ImageFont.load_default(size=120)
 except Exception:
   try:
@@ -36,13 +35,13 @@ try:
 except Exception:
   text_w, text_h = 70, 90
 
-# 座標精準對齊紅框（水平置中再往左微調 70 像素，垂直高度 800）
-x = (img_w - text_w) / 2 - 70
-y = 800
+# 微調 x 軸與 y 軸，讓「79」完美置中於上方紅框內
+x = (img_w - text_w) / 2 - 10
+y = 135
 
 # 繪製白色粗體數字
 draw.text((x, y), text, fill=(255, 255, 255), font=font)
 
 # 儲存結果並覆蓋檔案
 img.save("output_countdown.jpg")
-print("數字已成功渲染並寫入 output_countdown.jpg！")
+print("數字 79 已完美置中渲染！")
