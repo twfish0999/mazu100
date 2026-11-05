@@ -38,15 +38,15 @@ for path in font_paths:
 if font is None:
   font = ImageFont.load_default()
 
-# 6. 【微調對齊紅框左側】將方框範圍稍微向右下方微調 (x軸向右、y軸向下)
-box_x1, box_y1, box_x2, box_y2 = 350, 370, 530, 520
+# 6. 【微調對齊】再向右移一些，並往上微調一點點
+box_x1, box_y1, box_x2, box_y2 = 370, 350, 550, 500
 
 # 取得數字的寬高 bbox
 bbox = font.getbbox(remaining_days)
 text_width = bbox[2] - bbox[0]
 text_height = bbox[3] - bbox[1]
 
-# 自動計算數字在紅框左側區域內的置中座標
+# 自動計算數字在紅框內的置中座標
 x = box_x1 + ((box_x2 - box_x1 - text_width) / 2)
 y = box_y1 + ((box_y2 - box_y1 - text_height) / 2)
 
