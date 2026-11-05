@@ -11,7 +11,7 @@ taipei_tz = pytz.timezone('Asia/Taipei')
 now = datetime.now(taipei_tz)
 current_date = datetime(now.year, now.month, now.day)
 
-# 3. 計算剩餘天數並扣 1 天（確保今天顯示 77 天）
+# 3. 計算剩餘天數並扣 1 天（確保今天精準顯示 77 天）
 remaining_days = str((target_date - current_date).days - 1)
 
 # 4. 開啟底圖
@@ -38,23 +38,17 @@ for path in font_paths:
 if font is None:
   font = ImageFont.load_default()
 
-# 6. 【智慧自動對齊紅框】
-# 我們定義上方紅色區塊大約的位置範圍 (box_x1, box_y1, box_x2, box_y2)
-# 讓程式自動算出文字大小並置中擺放，不需要再盲猜座標！
-box_x1, box_y1, box_x2, box_y2 = 350, 430, 680, 580
+# 6. 【智慧自動對齊紅框】對準上方紅框區塊範圍
+box_x1, box_y1, box_x2, box_y2 = 350, 350, 680, 500
 
-# 取得文字的寬高bbox (left, top, right, bottom)
+# 取得文字的寬高 bbox
 bbox = font.getbbox(remaining_days)
 text_width = bbox[2] - bbox[0]
 text_height = bbox[3] - bbox[1]
 
 # 自動計算紅框內的置中座標
-x = box_x1 + (
-    (box_x2 - box_x1 - text_width) / 2
-)  # 讓數字在紅框內左右置中
-y = box_y1 + (
-    (box_y2 - box_y1 - text_height) / 2
-)  # 讓數字在紅框內上下置中
+x = box_x1 + ((box_x2 - box_x1 - text_width) / 2)
+y = box_y1 + ((box_y2 - box_y1 - text_height) / 2)
 
 # 7. 繪製白色數字
 draw.text((x, y), remaining_days, fill=(255, 255, 255), font=font)
