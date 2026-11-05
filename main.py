@@ -10,7 +10,7 @@ taipei_tz = pytz.timezone('Asia/Taipei')
 now = datetime.now(taipei_tz)
 current_date = datetime(now.year, now.month, now.day)
 
-# 3. 自動計算相差天數（今天是 77 天，明天會自動變成 76 天...以此類推）
+# 3. 自動計算相差天數
 remaining_days = str((target_date - current_date).days)
 
 # 4. 開啟底圖
@@ -18,16 +18,13 @@ image_path = 'base.jpg'
 img = Image.open(image_path)
 draw = ImageDraw.Draw(img)
 
-# 5. 設定字型與座標位置（若有需要微調 x 或 y 數字可以修改這裡）
-# 如果您有上傳自訂字型檔可以寫入路徑，若無可使用預設
-# font = ImageFont.truetype("arial.ttf", size=150)
+# 5. 調整文字座標（將數字移到上方紅框內「天」字的左側）
+x = 420  # 數值越小越靠左，越大越靠右
+y = 650  # 數值越小越靠上，越大越靠下
 
-x = 500  # 左右位置調整
-y = 830  # 上下位置調整
-
-# 6. 繪製倒數數字
+# 若有字型檔可在此載入：font = ImageFont.truetype("arial.ttf", size=150)
 draw.text((x, y), remaining_days, fill=(255, 255, 255))
 
-# 7. 儲存輸出圖片
+# 6. 儲存輸出圖片
 img.save('output_countdown.jpg')
-print(f'成功更新倒數圖片，目前距離 2027年1月22日 還剩 {remaining_days} 天')
+print(f'成功更新倒數圖片，目前天數：{remaining_days}')
