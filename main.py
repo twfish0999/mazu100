@@ -38,8 +38,8 @@ for path in font_paths:
 if font is None:
   font = ImageFont.load_default()
 
-# 6. 【微調對齊】再向右移一些，並往上微調一點點
-box_x1, box_y1, box_x2, box_y2 = 370, 350, 550, 500
+# 6. 【微調對齊】將數字範圍再往右移一些
+box_x1, box_y1, box_x2, box_y2 = 390, 350, 570, 500
 
 # 取得數字的寬高 bbox
 bbox = font.getbbox(remaining_days)
