@@ -38,21 +38,21 @@ for path in font_paths:
 if font is None:
   font = ImageFont.load_default()
 
-# 6. 【智慧自動對齊紅框】對準上方紅框區塊範圍
-box_x1, box_y1, box_x2, box_y2 = 350, 350, 680, 500
+# 6. 【精準對齊紅框左半部】專門用來放置數字「77」的區域範圍
+box_x1, box_y1, box_x2, box_y2 = 380, 350, 550, 500
 
-# 取得文字的寬高 bbox
+# 取得數字的寬高 bbox
 bbox = font.getbbox(remaining_days)
 text_width = bbox[2] - bbox[0]
 text_height = bbox[3] - bbox[1]
 
-# 自動計算紅框內的置中座標
+# 自動計算數字在紅框左側區域內的置中座標
 x = box_x1 + ((box_x2 - box_x1 - text_width) / 2)
 y = box_y1 + ((box_y2 - box_y1 - text_height) / 2)
 
-# 7. 繪製白色數字
+# 7. 僅繪製數字（不包含「天」字，避免與底圖原本的「天」字重疊）
 draw.text((x, y), remaining_days, fill=(255, 255, 255), font=font)
 
 # 8. 儲存輸出圖片
 img.save('output_countdown.jpg')
-print(f'成功自動置中更新圖片，目前天數：{remaining_days}')
+print(f'成功更新倒數數字，目前天數：{remaining_days}')
