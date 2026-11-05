@@ -11,7 +11,7 @@ taipei_tz = pytz.timezone('Asia/Taipei')
 now = datetime.now(taipei_tz)
 current_date = datetime(now.year, now.month, now.day)
 
-# 3. 自動計算相差天數（今天是 77 天）
+# 3. 自動計算相差天數（今天是 78 天）
 remaining_days = str((target_date - current_date).days)
 
 # 4. 開啟底圖
@@ -19,7 +19,7 @@ image_path = 'base.jpg'
 img = Image.open(image_path)
 draw = ImageDraw.Draw(img)
 
-# 5. 自動尋找伺服器內建字型，並設定夠大的字型尺寸 (size=120)
+# 5. 自動尋找伺服器內建字型，並設定適合紅框的大小 (size=90)
 font_paths = [
     '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',
     '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf',
@@ -29,20 +29,19 @@ font = None
 for path in font_paths:
   if os.path.exists(path):
     try:
-      font = ImageFont.truetype(path, size=120)
+      font = ImageFont.truetype(path, size=90)
       break
     except:
       continue
 
-# 如果真的找不到系統字型，才使用預設字型
 if font is None:
   font = ImageFont.load_default()
 
-# 6. 設定數字在紅框內的座標（可隨時微調）
-x = 420  # 左右位置
-y = 620  # 上下位置
+# 6. 調整座標，將數字精準移到紅框內「天」字的左側
+x = 440  # 左右位置（數字越大越靠右）
+y = 490  # 上下位置（數字越小越靠上，拉進紅框內）
 
-# 7. 繪製白色大數字
+# 7. 繪製白色數字
 draw.text((x, y), remaining_days, fill=(255, 255, 255), font=font)
 
 # 8. 儲存輸出圖片
