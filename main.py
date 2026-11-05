@@ -11,12 +11,13 @@ taipei_tz = pytz.timezone('Asia/Taipei')
 now = datetime.now(taipei_tz)
 current_date = datetime(now.year, now.month, now.day)
 
-# 3. 計算剩餘天數並減 1，讓今天精準顯示 77 天
+# 3. 計算剩餘天數並扣 1 天（確保今天顯示 77 天）
 remaining_days = str((target_date - current_date).days - 1)
 
 # 4. 開啟底圖
 image_path = 'base.jpg'
 img = Image.open(image_path)
+width, height = img.size
 draw = ImageDraw.Draw(img)
 
 # 5. 自動尋找伺服器內建字型，並設定大小 (size=90)
@@ -37,13 +38,27 @@ for path in font_paths:
 if font is None:
   font = ImageFont.load_default()
 
-# 6. 紅框內的字體座標
-x = 450  # 左右微調
-y = 510  # 上下微調
+# 6. 【智慧自動對齊紅框】
+# 我們定義上方紅色區塊大約的位置範圍 (box_x1, box_y1, box_x2, box_y2)
+# 讓程式自動算出文字大小並置中擺放，不需要再盲猜座標！
+box_x1, box_y1, box_x2, box_y2 = 350, 430, 680, 580
+
+# 取得文字的寬高bbox (left, top, right, bottom)
+bbox = font.getbbox(remaining_days)
+text_width = bbox[2] - bbox[0]
+text_height = bbox[3] - bbox[1]
+
+# 自動計算紅框內的置中座標
+x = box_x1 + (
+    (box_x2 - box_x1 - text_width) / 2
+)  # 讓數字在紅框內左右置中
+y = box_y1 + (
+    (box_y2 - box_y1 - text_height) / 2
+)  # 讓數字在紅框內上下置中
 
 # 7. 繪製白色數字
 draw.text((x, y), remaining_days, fill=(255, 255, 255), font=font)
 
 # 8. 儲存輸出圖片
 img.save('output_countdown.jpg')
-print(f'成功更新倒數圖片，目前天數：{remaining_days}')
+print(f'成功自動置中更新圖片，目前天數：{remaining_days}')
