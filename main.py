@@ -7,15 +7,15 @@ target_date = datetime(2027, 1, 22, 0, 0, 0)
 tz = pytz.timezone("Asia/Taipei")
 now = datetime.now(tz)
 
-# 強制計算並顯示為 78 天
-days_left = (target_date.date() - now.date()).days - 1
-print(f"強制計算顯示天數: {days_left}")
+# 計算距離 2027/1/22 的剩餘天數
+days_left = (target_date.date() - now.date()).days
+print(f"目前計算天數: {days_left}")
 
-# 開啟乾淨底圖
+# 開啟底圖
 img = Image.open("base.jpg")
 draw = ImageDraw.Draw(img)
 
-# 採用百分百相容的預設字型載入方式
+# 載入字型
 try:
   font = ImageFont.truetype("DejaVuSans-Bold.ttf", 120)
 except Exception:
@@ -32,13 +32,13 @@ try:
 except Exception:
   text_w, text_h = 70, 90
 
-# 🎯 座標設定：x 軸向左微調，y 軸設定在 630 完美落入下方紅框內
+# 🎯 修正座標：將 y 加大至 780（讓數字向下移動落入紅框），x 軸保持偏左居中
 x = (img_w - text_w) / 2 - 90
-y = 630
+y = 780
 
 # 繪製白色粗體數字
 draw.text((x, y), text, fill=(255, 255, 255), font=font)
 
-# 儲存結果並覆蓋檔案
+# 儲存圖片
 img.save("output_countdown.jpg")
-print("數字 78 渲染成功！")
+print(f"數字 {text} 渲染成功！y座標已修訂為 {y}")
