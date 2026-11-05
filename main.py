@@ -38,8 +38,8 @@ for path in font_paths:
 if font is None:
   font = ImageFont.load_default()
 
-# 6. 【精準對齊紅框左半部】專門用來放置數字「77」的區域範圍
-box_x1, box_y1, box_x2, box_y2 = 380, 350, 550, 500
+# 6. 【精準對齊紅框左側】專門計算數字「77」的位置範圍（將範圍再往左移一點）
+box_x1, box_y1, box_x2, box_y2 = 320, 350, 500, 500
 
 # 取得數字的寬高 bbox
 bbox = font.getbbox(remaining_days)
@@ -50,7 +50,7 @@ text_height = bbox[3] - bbox[1]
 x = box_x1 + ((box_x2 - box_x1 - text_width) / 2)
 y = box_y1 + ((box_y2 - box_y1 - text_height) / 2)
 
-# 7. 僅繪製數字（不包含「天」字，避免與底圖原本的「天」字重疊）
+# 7. 僅繪製數字「77」（不含「天」字，避免與底圖重疊）
 draw.text((x, y), remaining_days, fill=(255, 255, 255), font=font)
 
 # 8. 儲存輸出圖片
