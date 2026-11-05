@@ -2,16 +2,15 @@ name: Daily Countdown Automation
 
 on:
   schedule:
-    # 每天台灣時間早上 8 點執行 (UTC 0 點)
     - cron: '0 0 * * *'
-  workflow_dispatch:  # 允許手動觸發
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   run-countdown:
-  runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
