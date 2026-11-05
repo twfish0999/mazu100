@@ -11,8 +11,8 @@ taipei_tz = pytz.timezone('Asia/Taipei')
 now = datetime.now(taipei_tz)
 current_date = datetime(now.year, now.month, now.day)
 
-# 3. 強制計算並確保今天精準顯示 77 天
-remaining_days = str((target_date - current_date).days)
+# 3. 計算剩餘天數並減 1，讓今天精準顯示 77 天
+remaining_days = str((target_date - current_date).days - 1)
 
 # 4. 開啟底圖
 image_path = 'base.jpg'
@@ -37,9 +37,9 @@ for path in font_paths:
 if font is None:
   font = ImageFont.load_default()
 
-# 6. 大幅將 y 座標往上拉，讓數字進駐紅框「天」字的左側
-x = 440  # 左右位置
-y = 350  # 上下游標（數字大幅縮小，直接移到上方紅框區）
+# 6. 紅框內的字體座標
+x = 450  # 左右微調
+y = 510  # 上下微調
 
 # 7. 繪製白色數字
 draw.text((x, y), remaining_days, fill=(255, 255, 255), font=font)
